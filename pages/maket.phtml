@@ -1,0 +1,48 @@
+<?php 
+
+$conexion = conection();
+session_start();
+
+function head(){
+    ?>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="css/style.css">
+        <title>Canciones</title>
+    </head>
+    <?php
+}
+
+function headerhtml(){
+    ?>
+    <header>
+        <nav class="menu">
+            <ul>
+                <li><a href="/registro.php">Registro Usuarios</a></li>
+                <li><a href="/index.php"><h2>Inicio</h2></a></li>
+            </ul>
+            <?php 
+                if(isset($_SESSION['user_logeado'])){
+                    ?>
+                    <form action="logout.php">
+                        <button type="submit" class="cerrar_sesion">
+                            Cerrar Sesión
+                        </button>
+                    </form>
+                    <?php
+                } else {
+                    ?>
+                    <button class="login_user">
+                        <a href="login.php">Login</a>
+                    </button>
+                    <?php
+                }
+            ?>
+        </nav>
+    </header>
+    <?php
+}
+
+?>
