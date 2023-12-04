@@ -47,21 +47,27 @@
             ?>
             <div class="canciones__container">
             <?php
-                foreach ($canciones as $cancion) {
-                    ?>
-                        <div class="canciones">
-                            <h2><?= $cancion['artist']; ?></h2>
-                            <p><?= $cancion['title']; ?></p>
-                            <div class="button__container">
-                                <p class="canciones__price"><?= $cancion['price']; ?>$</p>
-                                <form class="form_añadir" action="add.php" method="POST">
-                                    <input type="hidden" name="user_id" value="<?php echo $user_id ?>">
-                                    <input type="hidden" name="song_id" value="<?php echo $cancion['song_id'] ?>">
-                                    <input type="hidden" name="tienda">
-                                    <button>Añadir</button>
-                                </form>
+                if(count($canciones) > 0) {
+                    foreach ($canciones as $cancion) {
+                        ?>
+                            <div class="canciones">
+                                <h2><?= $cancion['artist']; ?></h2>
+                                <p><?= $cancion['title']; ?></p>
+                                <div class="button__container">
+                                    <p class="canciones__price"><?= $cancion['price']; ?>$</p>
+                                    <form class="form_añadir" action="add.php" method="POST">
+                                        <input type="hidden" name="user_id" value="<?php echo $user_id ?>">
+                                        <input type="hidden" name="song_id" value="<?php echo $cancion['song_id'] ?>">
+                                        <input type="hidden" name="tienda">
+                                        <button>Añadir</button>
+                                    </form>
+                                </div>
                             </div>
-                        </div>
+                        <?php
+                    }
+                } else {
+                    ?>
+                    <h3 class="no_canciones">No hay más canciones en la tienda...</h3>
                     <?php
                 }
             ?>

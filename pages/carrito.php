@@ -13,32 +13,53 @@
     $result = $conexion->query($sql);
     $canciones = $result->fetch_all(MYSQLI_ASSOC);
 
+    $total = 0;
+
+    foreach ($canciones as $cancion) {
+        $total += $cancion['price'];
+    }
+
 ?>
 
 <body>
-   <?php 
-    require 'header.php';
-   ?>
-   <main class="carrito">
-        <h2>Carrito</h2>
-   <?php       
-            foreach ($canciones as $cancion) {
+    <?php 
+        require 'header.php';
+    ?>
+    <main class="carrito main">
+        <h2 class="h2">Carrito</h2>
+        <div class="carrito__container">
+            <?php
+            if(count($canciones) > 0) {
+                foreach ($canciones as $cancion) {
+                    ?>
+                        <div class="canciones__carrito">
+                            <h2><?= $cancion['artist']; ?></h2>
+                            <p><?= $cancion['title']; ?></p>
+                            <p class="price"><?= $cancion['price']; ?> $</p>
+                            <form class="form_eliminar" action="eliminar.php" method="POST">
+                                <input type="hidden" name="id" value="<?php echo $cancion['song_id'] ?>">
+                                <input type="hidden" name="carrito">
+                                <button class="btn__eliminar">Eliminar</button>
+                            </form>
+                        </div>
+                    <?php
+                }
                 ?>
-                    <div>
-                        <h2><?= $cancion['title']; ?></h2>
-                        <p><?= $cancion['artist']; ?></p>
-                        <p><?= $cancion['price']; ?></p>
-                        <form class="form_eliminar" action="eliminar.php" method="POST">
-                            <input type="hidden" name="id" value="<?php echo $cancion['song_id'] ?>">
-                            <input type="hidden" name="carrito">
-                            <button>Eliminar</button>
-                        </form>
-                    </div>
+                <p class="total__carrito">Total: <?php echo $total?> $</p>
+                <form method="post" action="comprado.php">
+                    <input type="hidden" name="agregar_carrito">
+                    <button class="btn__compra" type="submit">Comprar</button>
+                </form>
+                <?php
+            } else {
+                ?>
+                    <h3 class="no_canciones">No hay items..</h3>
                 <?php
             }
-        ?>
+            ?>
+            
+        </div>
    </main>
-
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </body>
 </html>
@@ -65,4 +86,25 @@
 
         unset($_SESSION['eliminado_carrito']);
     } 
+    
+    if(isset($_SESSION['carrito_comprado'])){
+        ?> 
+            <script>
+                Toastify({
+                    text: "Compra realizada con éxito!",
+                    duration: 2000,
+                    newWindow: true,
+                    close: true,
+                    gravity: "top", 
+                    position: "center", 
+                    stopOnFocus: true, 
+                    style: {
+                        background: "#1db954",
+                        color: "#fff"
+                    }
+                }).showToast();
+            </script>
+        <?php
+        unset($_SESSION['carrito_comprado']);
+    }
 ?>

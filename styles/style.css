@@ -230,7 +230,92 @@ div.button__container form button {
     transition: 0.5s;
 }
 
+div.button__container form button.btn__eliminar {
+    margin-top: 20px;
+    background-color: crimson;
+    cursor: pointer;
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    transition: 0.5s;
+}
+
 div.button__container form button:hover {
     transform: scale(1.05);
 }
 
+/* HOME */
+h3.no_canciones {
+    font-size: 3em;
+    margin-top: 50px;
+}
+
+/* CARRITO */
+
+div.carrito__container {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    height: 75vh;
+    background-color: #ffffff;
+    color: #191414;
+    border-radius: 10px;
+    margin-top: 30px;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.3);
+    padding: 40px;
+    justify-content: space-around;
+    align-items: baseline;
+}
+
+div.canciones__carrito p{
+    margin: 20px 0px 20px 0px;
+}
+
+div.canciones__carrito p.price {
+    font-weight: bold;
+}
+
+div.canciones__carrito h2 {
+    font-size: 1em;
+}
+
+div.canciones__carrito form button.btn__eliminar {
+    margin-bottom: 20px;
+    background-color: crimson;
+    cursor: pointer;
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    transition: 0.5s;
+}
+
+div.canciones__carrito form button.btn__eliminar:hover {
+    transform: scale(1.05);
+}
+
+p.total__carrito {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+button.btn__compra {
+    background-color: #1db954;
+    cursor: pointer;
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    transition: 0.5s;
+    width: 150px;
+    margin-left: 20px;
+    text-transform: uppercase;
+    font-size: 1.2em;
+}
+
+button.btn__compra:hover{
+    transform: scale(1.05);
+}
