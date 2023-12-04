@@ -4,47 +4,69 @@
     require 'head.php';
     session_start();
 
-    $sql = "SELECT * FROM songs";
+    $user_id = $_SESSION['user_id'];
+
+    $sql = "SELECT s.*
+        FROM songs s
+        WHERE NOT EXISTS (
+            SELECT 1
+            FROM user_songs us
+            WHERE us.song_id = s.song_id AND us.user_id = $user_id
+        )
+        AND NOT EXISTS (
+            SELECT 1
+            FROM user_cart uc
+            WHERE uc.song_id = s.song_id AND uc.user_id = $user_id
+        )";
 
     $result = $conexion->query($sql);
     $canciones = $result->fetch_all(MYSQLI_ASSOC);
 
-    $user_id = $_SESSION['user_id'];
+    $carrito_sql = "SELECT * FROM user_cart";
 
-    /* TODO SI YA TENGO LA CANCIÓN EN MI LISTA QUE NO SE MUESTRE AQUI 
-    O EN EL CARRITO
-    */
+    $result_carrito = $conexion->query($carrito_sql);
+    $cosas_carrito = $result_carrito->fetch_all(MYSQLI_ASSOC);
+
 ?>
 
-<head>
-    
-</head>
 <body>
    <?php 
     require 'header.php';
    ?>
-   <main class="tienda">
-        <h2>Canciones Disponibles</h2>
-        <p>Icono carro con enlace al carro</p>
+   <main class="tienda main">
+        <div class="title__tienda-container">
+            <h2 class="h2">Canciones Disponibles</h2>
+            <a href="carrito.php">
+                <span class="material-symbols-outlined">
+                    shopping_cart
+                </span>
+            </a>
+            <div class="items__carrito"><?= count($cosas_carrito)?></div>
+        </div>
    <?php       
-            foreach ($canciones as $cancion) {
-                ?>
-                    <div>
-                        <h2><?= $cancion['title']; ?></h2>
-                        <p><?= $cancion['artist']; ?></p>
-                        <p><?= $cancion['price']; ?></p>
-                        <form class="form_añadir" action="add.php" method="POST">
-                            <input type="hidden" name="user_id" value="<?php echo $user_id ?>">
-                            <input type="hidden" name="song_id" value="<?php echo $cancion['song_id'] ?>">
-                            <button>Añadir</button>
-                        </form>
-                        <form class="form_eliminar" action="eliminar.php" method="POST">
-                            <input type="hidden" name="id" value="<?php echo $cancion['song_id'] ?>">
-                            <button>Eliminar</button>
-                        </form>
-                    </div>
-                <?php
-            }
+            ?>
+            <div class="canciones__container">
+            <?php
+                foreach ($canciones as $cancion) {
+                    ?>
+                        <div class="canciones">
+                            <h2><?= $cancion['artist']; ?></h2>
+                            <p><?= $cancion['title']; ?></p>
+                            <div class="button__container">
+                                <p class="canciones__price"><?= $cancion['price']; ?>$</p>
+                                <form class="form_añadir" action="add.php" method="POST">
+                                    <input type="hidden" name="user_id" value="<?php echo $user_id ?>">
+                                    <input type="hidden" name="song_id" value="<?php echo $cancion['song_id'] ?>">
+                                    <input type="hidden" name="tienda">
+                                    <button>Añadir</button>
+                                </form>
+                            </div>
+                        </div>
+                    <?php
+                }
+            ?>
+            </div>
+            <?php
         ?>
    </main>
 

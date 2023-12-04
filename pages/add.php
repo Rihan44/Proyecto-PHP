@@ -2,7 +2,7 @@
     require_once '../connection.php';
     session_start();
     
-    if($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['tienda'])) {
         $user_id = $_POST['user_id'];
         $song_id = $_POST['song_id'];
 
@@ -20,5 +20,7 @@
         $stmt->close();
 
         header('Location:tienda.php');
+    } else if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['carrito'])) {
+        
     }
 ?>
